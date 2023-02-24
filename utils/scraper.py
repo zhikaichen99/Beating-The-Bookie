@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-def scrape_data(player_name):
+def scrape_data(player_name, last_n_games = None):
     # url for the player's game log page
     url = 'https://www.foxsports.com/nba/{}-player-game-log?season=2022&seasonType=reg'.format(player_name)
 
@@ -35,5 +35,5 @@ def scrape_data(player_name):
     df = pd.DataFrame(data, columns = columns)
     df['3FG'] = df['3FG'].str.split('/').str[0]
 
-    return df
+    return df[:last_n_games]
 
