@@ -24,7 +24,7 @@ def scrape_data(player_name):
 
     # retrieve row data from the table
     data = soup.find('tbody', {'class': 'row-data lh-1pt43 fs-14'})
-    rows = .findAll('tr')[0:]
+    rows = data.findAll('tr')[0:]
     data = []
     for row in rows:
         row_data = []
