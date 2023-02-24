@@ -14,8 +14,9 @@ def predict():
     player_name = request.form['player_name']
     threshold = int(request.form['threshold'])
     stat = request.form['stat']
+    last_n_games = int(request.form['last_n_games'])
 
-    df = scrape_data(player_name)
+    df = scrape_data(player_name, last_n_games)
     probability = player_over_probability(stat, threshold, df)
 
     return render_template('index.html', prediction_text='The probability of {} getting over {} {} is {:.2f}%'.format(player_name, threshold, stat, probability*100))
