@@ -2,26 +2,44 @@
 <html>
 <head>
 	<title>Player Points Predictor</title>
+	<!-- Add Bootstrap stylesheet -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-	<h1>Player Points Predictor</h1>
-	<form method="POST" action="/predict">
-		<label for="player_name">Enter Player Name:</label>
-		<input type="text" id="player_name" name="player_name" required><br>
+	<div class="container">
+		<h1 class="mt-5 mb-4 text-center">Player Points Predictor</h1>
+		<form method="POST" action="/predict">
+			<div class="form-group">
+				<label for="player_name">Enter Player Name:</label>
+				<input type="text" class="form-control" id="player_name" name="player_name" required>
+			</div>
 
-		<label for="stat">Enter Stat Category:</label>
-		<input type="text" id="stat" name="stat" required><br>
+			<div class="form-group">
+				<label for="stat">Enter Stat Category:</label>
+				<input type="text" class="form-control" id="stat" name="stat" required>
+			</div>
 
-		<label for="threshold">Enter Threshold:</label>
-		<input type="number" id="threshold" name="threshold" required><br>
+			<div class="form-group">
+				<label for="threshold">Enter Threshold:</label>
+				<input type="number" class="form-control" id="threshold" name="threshold" required>
+			</div>
 
-        <label for="last_n_games">Last How Many Games:</label>
-		<input type="number" id="last_n_games" name="last_n_games" required><br>
+			<div class="form-group">
+				<label for="last_n_games">Last How Many Games:</label>
+				<input type="number" class="form-control" id="last_n_games" name="last_n_games" required>
+			</div>
 
-		<input type="submit" value="Predict">
-	</form>
-	{% if prediction_text %}
-		<h2>{{ prediction_text }}</h2>
-	{% endif %}
+			<button type="submit" class="btn btn-primary">Predict</button>
+		</form>
+
+		{% if prediction_text %}
+			<h2 class="mt-5">{{ prediction_text }}</h2>
+		{% endif %}
+	</div>
+
+	<!-- Add Bootstrap JavaScript -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNSB0vo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
