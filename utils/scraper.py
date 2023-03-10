@@ -67,7 +67,6 @@ def scrape_data_ncaab(player_name, last_n_games = None):
         data.append(row_data[2:])
 
     df = pd.DataFrame(data, columns = columns)
-    df['3FG'] = df['3FG'].str.split('/').str[0]
 
     print(df)
 
