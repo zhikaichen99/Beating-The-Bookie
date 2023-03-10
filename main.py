@@ -1,6 +1,6 @@
 # Importing necessary libraries
 import pandas as pd
-from utils.scraper import scrape_data
+from utils.scraper import scrape_data_nba
 from utils.probability import player_over_probability
 import datetime
 
@@ -20,7 +20,7 @@ PLAYERS_LIST = ['anthony-edwards']
 def main():
     df = pd.DataFrame()
     for player_name in PLAYERS_LIST:
-        player_df = scrape_data(player_name, LAST_N_GAMES)
+        player_df = scrape_data_nba(player_name, LAST_N_GAMES)
         player_df = player_df.astype({'PTS': int, 'AST': int, 'REB': int, '3FG': int})
         player_name = player_name.replace('-', ' ').title()
         print(f"Created DataFrame for {player_name}")
