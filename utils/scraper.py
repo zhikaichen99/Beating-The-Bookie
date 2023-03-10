@@ -68,7 +68,6 @@ def scrape_data_ncaab(player_name, last_n_games = None):
 
     df = pd.DataFrame(data, columns = columns)
 
-    print(df)
 
     return df[:last_n_games]
 

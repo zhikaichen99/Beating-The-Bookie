@@ -1,6 +1,6 @@
 # Importing necessary libraries
 import pandas as pd
-from utils.scraper import scrape_data_nba
+from utils.scraper import scrape_data_nba, scrape_data_ncaab
 from utils.probability import player_over_probability
 import datetime
 
@@ -15,6 +15,18 @@ LAST_N_GAMES = 25
 
 # Players to consider for analysis
 PLAYERS_LIST = ['anthony-edwards']
+
+NCAA_PLAYERS_LIST = ['andrew-funk', 'seth-lundy', 'jalen-pickett', 'camren-wynter',
+                     'chase-audige', 'ty-berry', 'boo-buie', 'matthew-nicholson',
+                     'taylor-hendricks', 'ithiel-horton', 'darius-johnson', 'cj-kelly',
+                     'kendric-davis', 'elijah-mccadden', 'deandre-willians', 'mark-mitchell',
+                     'tyrese-proctor', 'jeremy-roach', 'jordan-miller', 'norchard-omier',
+                     'nijel-pack', 'wooga-poplar', 'isaiah-wong', 'jaren-holmes', 'gabe-kalscheur',
+                     'tre-king', 'gradey-dick', 'jalen-wilson', 'isiah-dasher', 'gabe-mcglothan',
+                     'qua-grant', 'donte-powers', 'donald-carey', 'hakim-hart',
+                     'julian-reese', 'donta-scott','jahmir-young', 'trey-galloway',
+                     'miller-kopp', 'race-thompson', 'jermaine-couisnard', 'will-richardson',
+                     'amari-bailey', 'tyger-campbell']
 
 # Defining main function
 def nba():
@@ -48,14 +60,47 @@ def nba():
             df = pd.concat([df, df_results])
 
     df.reset_index(drop=True, inplace=True)
-    print(df)
 
     # Saving the results to a csv file with today's date
     today = datetime.date.today()
     df.to_csv(f"{today}-nba-bets.csv")
 
+def ncaab():
+    df = pd.DataFrame()
+    for player_name in NCAA_PLAYERS_LIST:
+        player_df = scrape_data_ncaab(player_name, LAST_N_GAMES)
+        player_df = player_df.astype({'PTS': int, 'AST': int, 'REB': int})
+        player_name = player_name.replace('-', ' ').title()
+        print(f"Created DataFrame for {player_name}")
 
+        # Looping over each category and threshold to calculate the probability
+        for category, thresholds in zip(['PTS', 'AST', 'REB'],
+                                        [POINTS_THRESHOLDS, ASSISTS_THRESHOLDS, REBOUNDS_THRESHOLDS]):
+            player_list, prop_list, probability_list, last_25_list, average_list = [], [], [], [], []
+            for threshold in thresholds:
+                probability = player_over_probability(category, threshold, player_df)
+                last_25 = player_df[player_df[category] >= threshold]
+                count_last_25 = last_25.shape[0]
+                average = player_df[category].mean()
+
+                # Checking if the probability of going over the threshold is higher than 80%
+                if (0.80 <= probability <= 0.95):
+                    player_list.append(player_name)
+                    prop_list.append(f"{threshold} {category}")
+                    probability_list.append(probability)
+                    last_25_list.append(count_last_25)
+                    average_list.append(average)
+            data = {'Player': player_list, 'Prop': prop_list, 'Probability': probability_list,
+                    'Last_25': last_25_list, 'Average_Last_25': average_list}
+            df_results = pd.DataFrame(data)
+            df = pd.concat([df, df_results])
+
+    df.reset_index(drop=True, inplace=True)
+
+    # Saving the results to a csv file with today's date
+    today = datetime.date.today()
+    df.to_csv(f"{today}-ncaa-bets.csv")
 
 
 if __name__ == '__main__':
-    nba()
+    ncaab()
