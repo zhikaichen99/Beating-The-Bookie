@@ -17,7 +17,7 @@ LAST_N_GAMES = 25
 PLAYERS_LIST = ['anthony-edwards']
 
 # Defining main function
-def main():
+def nba():
     df = pd.DataFrame()
     for player_name in PLAYERS_LIST:
         player_df = scrape_data_nba(player_name, LAST_N_GAMES)
@@ -52,8 +52,10 @@ def main():
 
     # Saving the results to a csv file with today's date
     today = datetime.date.today()
-    df.to_csv(f"{today}-bets.csv")
+    df.to_csv(f"{today}-nba-bets.csv")
+
+
 
 
 if __name__ == '__main__':
-    main()
+    nba()
