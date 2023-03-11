@@ -22,57 +22,50 @@ Using stat and probability for sports betting props .
 
 
 
-sport = st.selectbox(
-'Which sport do you want to look at',
-['NBA', 'NCAA', 'NBL'])
-
-players = st.multiselect(
-'Which player(s) do you want to look at',
-nba_players()['Player'].tolist()
-)
 
 
+if __name__ == '__main__':
 
-stats = st.multiselect(
-    'Which stat(s) do you want to look at',
-    ['Points', 'Assists', 'Rebounds', 'Threes'])
+    with st.sidebar:
 
-if len(stats) > 0:
+        sport = st.selectbox(
+        'Which sport do you want to look at',
+        ['NBA', 'NCAA', 'NBL'])
 
-    num_stats = len(stats)
-    columns = st.columns(num_stats)
+        players = st.multiselect(
+        'Which player(s) do you want to look at',
+        nba_players()['Player'].tolist()
+        )
 
-    for i in range(num_stats):
+        stats = st.multiselect(
+            'Which stat(s) do you want to look at',
+            ['Points', 'Assists', 'Rebounds', 'Threes'])
+
+            
         
-        
-        stat = stats[i]
-        column = columns[i]
-        
-        if stat == 'Points':
+        if 'Points' in stats:
             points_thresholds = column.multiselect(
                 'Points',
                 [num/2 for num in range(0,61)]    
             )
         
-        if stat == 'Assists':
+        if 'Assists' in stats:
             assists_thresholds = column.multiselect(
                 'Assists',
                 [num/2 for num in range(0,41)]
             )
         
-        if stat == 'Rebounds':
+        if 'Rebounds' in stats:
             rebounds_thresholds = column.multiselect(
                 'Rebounds',
                 [num/2 for num in range(0,41)]
             )
         
-        if stat == 'Threes':
+        if 'Threes' in stats:
             threes_thresholds = column.multiselect(
                 'Threes',
                 [num/2 for num in range(0,11)]
             )
-
-if __name__ == '__main__':
 
     last_n_games = 25
 
@@ -81,7 +74,9 @@ if __name__ == '__main__':
         player = player.replace(" ", "-").lower()
         player_list.append(player)
 
-    basketball(player_list, last_n_games, points_thresholds, assists_thresholds, rebounds_thresholds, threes_thresholds)
+    bets_df = basketball(player_list, last_n_games, points_thresholds, assists_thresholds, rebounds_thresholds, threes_thresholds)
+
+    st.dataframe(bets_df)
    
 
 
