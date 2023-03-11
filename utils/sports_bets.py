@@ -26,13 +26,13 @@ def basketball(players_list, last_n_games = None, points_thresholds = None, assi
                     average = player_df[category].mean()
 
                     # Checking if the probability of going over the threshold is higher than 80%
-                    if (0.80 <= probability <= 0.95):
+                    if (0.80 <= probability <= 0.93):
                         player_list.append(player_name)
                         prop_list.append(f"{threshold} {category}")
                         formatted_probability = "{:.2f}".format(probability*100)
                         probability_list.append(formatted_probability)
-                        last_25_list.append(count_last_25)
-                        average_list.append(average)
+                        last_25_list.append("{:g}".format(count_last_25))
+                        average_list.append("{:.2f}".format(average))
                 data = {'Player': player_list, 'Player Prop': prop_list, 'Probability': probability_list,
                         'Last 25': last_25_list, 'Average Last 25': average_list}
                 df_results = pd.DataFrame(data)
