@@ -26,7 +26,7 @@ sport = st.selectbox(
 'Which sport do you want to look at',
 ['NBA', 'NCAA', 'NBL'])
 
-players_list = st.multiselect(
+players = st.multiselect(
 'Which player(s) do you want to look at',
 nba_players()['Player'].tolist()
 )
@@ -72,7 +72,16 @@ if len(stats) > 0:
                 [num/2 for num in range(0,11)]
             )
 
-#if __name__ == '__main__':
+if __name__ == '__main__':
+
+    last_n_games = 25
+
+    player_list = []
+    for player in players:
+        player = player.replace(" ", "-").lower()
+        player_list.append(player)
+
+    basketball(player_list, last_n_games, points_thresholds, assists_thresholds, rebounds_thresholds, threes_thresholds)
    
 
 
