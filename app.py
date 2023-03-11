@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import pandas as pd
 
 from utils.sports_bets import basketball
+from utils.scraper import nba_players
 
 import streamlit as st
 import numpy as np
@@ -27,7 +28,8 @@ sport = st.selectbox(
 
 players_list = st.multiselect(
 'Which player(s) do you want to look at',
-['Lebron James'])
+nba_players()['Player'].tolist()
+)
 
 
 
