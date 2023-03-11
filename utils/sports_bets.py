@@ -44,8 +44,10 @@ def basketball(players_list, last_n_games, points_thresholds, assists_thresholds
     df.reset_index(drop=True, inplace=True)
 
     # Saving the results to a csv file with today's date
-    today = datetime.date.today()
-    df.to_csv(f"{today}-nba-bets.csv")
+    #today = datetime.date.today()
+    #df.to_csv(f"{today}-nba-bets.csv")
+
+    return df
 
 # def ncaab(players_list):
 #     df = pd.DataFrame()
