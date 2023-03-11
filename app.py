@@ -1,37 +1,83 @@
 from flask import Flask, render_template, request
 import pandas as pd
-from utils.scraper import scrape_data_nba
-from utils.probability import player_over_probability
+
+from utils.sports_bets import basketball
 
 import streamlit as st
 import numpy as np
-from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 
-# Thresholds for different categories of stats
-POINTS_THRESHOLDS = [5, 10, 15, 20, 25]
-ASSISTS_THRESHOLDS = [3, 5, 7, 10, 13]
-REBOUNDS_THRESHOLDS = [3, 5, 7, 10, 13]
-THREES_THRESHOLDS = [1, 2, 3, 4, 5]
 
-# Number of last games to consider for analysis
-LAST_N_GAMES = 25
+st.set_page_config(
+    page_title="Beating The Bookie", page_icon="📊", initial_sidebar_state="expanded"
+)
 
-# Players to consider for analysis
-PLAYERS_LIST = ['anthony-edwards']
+st.write(
+    """
+# Beating The Bookie
+Using stat and probability for sports betting props .
+"""
+)
 
-NCAA_PLAYERS_LIST = ['andrew-funk', 'seth-lundy', 'jalen-pickett', 'camren-wynter',
-                     'chase-audige', 'ty-berry', 'boo-buie', 'matthew-nicholson',
-                     'taylor-hendricks', 'ithiel-horton', 'darius-johnson', 'cj-kelly',
-                     'kendric-davis', 'elijah-mccadden',
-                     'tyrese-proctor', 'jeremy-roach', 'jordan-miller', 'norchard-omier',
-                     'nijel-pack', 'wooga-poplar', 'isaiah-wong', 'jaren-holmes', 'gabe-kalscheur',
-                     'tre-king', 'gradey-dick', 'jalen-wilson', 'isiah-dasher', 'gabe-mcglothan',
-                     'qua-grant', 'donte-powers', 'donald-carey', 'hakim-hart',
-                     'julian-reese', 'donta-scott','jahmir-young', 'trey-galloway',
-                     'miller-kopp', 'race-thompson', 'jermaine-couisnard', 'will-richardson',
-                     'amari-bailey', 'tyger-campbell']
 
-data= pd.read_csv('df_sample_data.csv', index_col=0) 
+
+
+sport = st.selectbox(
+'Which sport do you want to look at',
+['NBA', 'NCAA', 'NBL'])
+
+players_list = st.multiselect(
+'Which player(s) do you want to look at',
+['Lebron James'])
+
+
+
+stats = st.multiselect(
+    'Which stat(s) do you want to look at',
+    ['Points', 'Assists', 'Rebounds', 'Threes'])
+
+if len(stats) > 0:
+
+    num_stats = len(stats)
+    columns = st.columns(num_stats)
+
+    for i in range(num_stats):
+        
+        
+        stat = stats[i]
+        column = columns[i]
+        
+        if stat == 'Points':
+            points_thresholds = column.multiselect(
+                'Points',
+                [num/2 for num in range(0,61)]    
+            )
+        
+        if stat == 'Assists':
+            assists_thresholds = column.multiselect(
+                'Assists',
+                [num/2 for num in range(0,41)]
+            )
+        
+        if stat == 'Rebounds':
+            rebounds_thresholds = column.multiselect(
+                'Rebounds',
+                [num/2 for num in range(0,41)]
+            )
+        
+        if stat == 'Threes':
+            threes_thresholds = column.multiselect(
+                'Threes',
+                [num/2 for num in range(0,11)]
+            )
+
+#if __name__ == '__main__':
+   
+
+
+
+
+
+
 
 
 

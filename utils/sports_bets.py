@@ -1,7 +1,7 @@
 # Importing necessary libraries
 import pandas as pd
-from scraper import scrape_data_nba, scrape_data_ncaab
-from probability import player_over_probability
+from utils.scraper import scrape_data_nba, scrape_data_ncaab
+from utils.probability import player_over_probability
 import datetime
 
 
