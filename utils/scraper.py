@@ -3,6 +3,40 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
+def nba_players():
+    # url for a list of nba players
+    url = 'https://basketball.realgm.com/nba/players'
+
+    # send a request to the url and get response
+    response = requests.get(url)
+
+    # parse content
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # find table element
+    table = soup.find('table', {'class': 'tablesaw tablesaw-swipe tablesaw-sortable'})
+
+    # retrieve headers of the table
+    headers = table.findall('th', {'class': 'tablesaw-sortable-head'})
+    columns = []
+    for header in headers:
+        columns.append(header.text.strip())
+
+    # retrieve row data from the table
+    data = soup.find('tbody')
+    rows = data.findAll('tr')[0:]
+    data = []
+    for row in rows:
+        row_data = []
+        for td in row.findAll('td'):
+            row_data.append(td.text.strip())
+        data.append(row_data[2:])
+    df = pd.DataFrame(data, columns = columns)
+    return df
+
+
+
+
 def scrape_data_nba(player_name, last_n_games = None):
     # url for the player's game log page
     url = 'https://www.foxsports.com/nba/{}-player-game-log?season=2022&seasonType=reg'.format(player_name)
