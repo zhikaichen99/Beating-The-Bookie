@@ -14,13 +14,11 @@ def nba_players():
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # find table element
-    table = soup.find('table', {'class': 'tablesaw tablesaw-swipe tablesaw-sortable'})
+    table = soup.find('table', {'class': 'tablesaw'})
 
     # retrieve headers of the table
-    headers = table.findall('th', {'class': 'tablesaw-sortable-head'})
-    columns = []
-    for header in headers:
-        columns.append(header.text.strip())
+    headers = table.find_all('th')
+    columns = [th.text for th in headers[1:]]
 
     # retrieve row data from the table
     data = soup.find('tbody')
@@ -30,10 +28,9 @@ def nba_players():
         row_data = []
         for td in row.findAll('td'):
             row_data.append(td.text.strip())
-        data.append(row_data[2:])
+        data.append(row_data[1:])
     df = pd.DataFrame(data, columns = columns)
     return df
-
 
 
 
