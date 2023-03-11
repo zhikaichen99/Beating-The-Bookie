@@ -44,39 +44,41 @@ if __name__ == '__main__':
             
         
         if 'Points' in stats:
-            points_thresholds = column.multiselect(
+            points_thresholds = st.multiselect(
                 'Points',
                 [num/2 for num in range(0,61)]    
             )
         
         if 'Assists' in stats:
-            assists_thresholds = column.multiselect(
+            assists_thresholds = st.multiselect(
                 'Assists',
                 [num/2 for num in range(0,41)]
             )
         
         if 'Rebounds' in stats:
-            rebounds_thresholds = column.multiselect(
+            rebounds_thresholds = st.multiselect(
                 'Rebounds',
                 [num/2 for num in range(0,41)]
             )
         
         if 'Threes' in stats:
-            threes_thresholds = column.multiselect(
+            threes_thresholds = st.multiselect(
                 'Threes',
                 [num/2 for num in range(0,11)]
             )
 
-    last_n_games = 25
+    if len(stats) != 0:
 
-    player_list = []
-    for player in players:
-        player = player.replace(" ", "-").lower()
-        player_list.append(player)
+        last_n_games = 25
 
-    bets_df = basketball(player_list, last_n_games, points_thresholds, assists_thresholds, rebounds_thresholds, threes_thresholds)
+        player_list = []
+        for player in players:
+            player = player.replace(" ", "-").lower()
+            player_list.append(player)
 
-    st.dataframe(bets_df)
+        bets_df = basketball(player_list, last_n_games, points_thresholds, assists_thresholds, rebounds_thresholds, threes_thresholds)
+
+        st.dataframe(bets_df, use_container_width = True)
    
 
 
