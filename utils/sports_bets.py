@@ -6,7 +6,7 @@ import datetime
 
 
 # Defining main function
-def basketball(players_list, last_n_games, points_thresholds, assists_thresholds, rebounds_thresholds, threes_threshold):
+def basketball(players_list, last_n_games = None, points_thresholds = None, assists_thresholds = None, rebounds_thresholds = None, threes_threshold = None):
     df = pd.DataFrame()
     for player_name in players_list:
         try:
